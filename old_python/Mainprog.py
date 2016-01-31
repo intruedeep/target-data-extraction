@@ -12,7 +12,7 @@ from SevenSegment import SevenSegmentNumber
 Button = Tkinter.Tk()
 Button.mainloop()
 
-os.chdir("C:\Users\lbechtel\Google Drive\Dropbox\Work Stuff\TubeReader\dev")
+#os.chdir("C:\Users\lbechtel\Google Drive\Dropbox\Work Stuff\TubeReader\dev")
 
 
 class Client(object):

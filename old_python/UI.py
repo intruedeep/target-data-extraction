@@ -418,6 +418,7 @@ class FindTubeWindow(object):
 		self.root.destroy()
 
 class CropImage(object):
+    pass
 
 
 class CalibrationWindow(object):

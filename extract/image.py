@@ -5,7 +5,6 @@ from scipy import ndimage
 import cv2
 import matplotlib
 import os
-import xlwt
 import time
 import Utils
 from Utils import printPylab, print_center
