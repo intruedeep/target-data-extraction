@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+
 import numpy as np
 import scipy
 import pymorph
@@ -5,7 +7,7 @@ from scipy import ndimage
 import cv2
 import matplotlib
 import os
-import xlwt
+import sys
 import time
 import Utils
 from Utils import printPylab, print_center
@@ -15,12 +17,11 @@ from decimal import Decimal
 
 def get_target_data(img, lowbounds, highbounds):
   #convert to hsv
-  img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+  #img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
   #isolate colors to binary image
-  target_iso = cv2.inRange(img_hsv, lowbounds, highbounds)
-
-
+  #target_iso = cv2.inRange(img_hsv, lowbounds, highbounds)
+  target_iso = cv2.inRange(img, lowbounds, highbounds)
 
   #Blur the binary image
   blur_target = ndimage.gaussian_filter(target_iso, 8)
@@ -30,7 +31,8 @@ def get_target_data(img, lowbounds, highbounds):
   largest_contour = get_largest_contour(contours)
 
   #Get x,y position and radius
-  target_info = get_target_info_from_contour(largest_contour)
+#  target_info = get_target_info_from_contour(largest_contour)
+  target_info = cv2.minEnclosingCircle(largest_contour)  
 
   cv2.circle(target_iso, (int(target_info[0][0]), int(target_info[0][1])), int(target_info[1]), (100,100,100))
   cv2.imshow("image", target_iso)
@@ -53,12 +55,22 @@ def get_contours(binimg):
 #   else:
 #     return None
 
-def get_target_info_from_contour(contour):
-  (x,y), radius = cv2.minEnclosingCircle(contour)
-  return [[x,y], radius]
+#def get_target_info_from_contour(contour):
+#  (x,y), radius = cv2.minEnclosingCircle(contour)
+#  return [[x,y], radius]
 
 def get_largest_contour(contours):
   newlist = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
   return newlist[0]
 
+RED_LOWER = np.array([17, 15, 100])
+RED_UPPER = np.array([50, 56, 200])
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print "image.py imagefile"
+        raise SystemExit
+    img = cv2.imread(sys.argv[1])
+    targInfo = get_target_data(img, RED_LOWER, RED_UPPER)
+    print targInfo
 
