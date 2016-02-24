@@ -32,9 +32,9 @@ def get_target_data(img, lowbounds, highbounds):
 
   #Get x,y position and radius
 #  target_info = get_target_info_from_contour(largest_contour)
-  target_info = cv2.minEnclosingCircle(largest_contour)  
+  target_info = ((x,y), rad) = cv2.minEnclosingCircle(largest_contour)  
 
-  cv2.circle(target_iso, (int(target_info[0][0]), int(target_info[0][1])), int(target_info[1]), (100,100,100))
+  cv2.circle(target_iso, (int(x), int(y)), int(rad), (100,100,100))
   cv2.imshow("image", target_iso)
   cv2.waitKey(0)
   cv2.destroyAllWindows()
@@ -71,6 +71,6 @@ if __name__ == '__main__':
         print "image.py imagefile"
         raise SystemExit
     img = cv2.imread(sys.argv[1])
-    targInfo = get_target_data(img, RED_LOWER, RED_UPPER)
-    print targInfo
+    (x,y), radius = get_target_data(img, RED_LOWER, RED_UPPER)
+    print (x,y), radius
 

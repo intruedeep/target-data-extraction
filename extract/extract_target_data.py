@@ -63,7 +63,7 @@ if __name__ == "__main__":
   # pointdict = gwindow.retval()
 
   for im, md in target_data:
-  cv2.imwrite(storage_folder + ("frame%d.jpg")%count, image)     # save frame as JPEG file
+      cv2.imwrite(storage_folder + ("frame%d.jpg")%count, image)     # save frame as JPEG file
 
 
 
