@@ -31,14 +31,35 @@ def get_target_data(img, lowbounds, highbounds):
   cv2.line(img, tr, bl, (50, 200, 50), thickness=2)
   cv2.circle(img, (xi, yi), int(rad), (100,100,100))
 
-  cv2.imshow("image", img)
-  cv2.waitKey(0)
-  cv2.destroyAllWindows()
+  # cv2.imshow("image", img)
+  # cv2.waitKey(0)
+  # cv2.destroyAllWindows()
 
   return ((x,y), rad)
 
 RED_LOWER = np.array([17, 15, 100])
 RED_UPPER = np.array([50, 56, 200])
+
+
+def area_containing_target(img, highbounds, lowbounds):
+  #isolate colors to binary image
+  target_iso = cv2.inRange(img, lowbounds, highbounds)
+
+  #Blur the binary image
+  blur_target = ndimage.gaussian_filter(target_iso, 8)
+
+  # Get contours and keep the largest - this should be our target
+  contours, _ = cv2.findContours(blur_target, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+  largest_contour = max(contours, key=lambda x: cv2.contourArea(x))
+
+  area = cv2.contourArea(largest_contour)
+  return area
+
+def image_contains_target(img, highbounds, lowbounds, count_threshold):
+  area = area_containing_target(img, highbounds, lowbounds)
+
+  return area >= count_threshold:
+
 
 if __name__ == '__main__':
     """ This script needs some testing. Also a helpful 'view-next' feature should
