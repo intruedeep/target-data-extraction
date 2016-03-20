@@ -69,5 +69,3 @@ if __name__ == "__main__":
   #   sys.write(".")
   #   cv2.imwrite(storage_folder + ("frame%d.jpg")%count, image)     # save frame as JPEG file
 
-
-
