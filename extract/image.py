@@ -58,7 +58,14 @@ def area_containing_target(img, highbounds, lowbounds):
 def image_contains_target(img, highbounds, lowbounds, count_threshold):
   area = area_containing_target(img, highbounds, lowbounds)
 
-  return area >= count_threshold:
+  return area >= count_threshold
+
+
+def get_cv2_image_from_pil_image(pil_img):
+  open_cv_image = np.array(pil_img) 
+  # Convert RGB to BGR 
+  open_cv_image = open_cv_image[:, :, ::-1].copy()
+  return open_cv_image
 
 
 if __name__ == '__main__':
