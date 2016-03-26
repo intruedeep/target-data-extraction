@@ -50,6 +50,9 @@ def area_containing_target(img, highbounds, lowbounds):
 
   # Get contours and keep the largest - this should be our target
   contours, _ = cv2.findContours(blur_target, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+  if len(contours) == 0:
+    return -2
   largest_contour = max(contours, key=lambda x: cv2.contourArea(x))
 
   area = cv2.contourArea(largest_contour)
@@ -57,6 +60,9 @@ def area_containing_target(img, highbounds, lowbounds):
 
 def image_contains_target(img, highbounds, lowbounds, count_threshold):
   area = area_containing_target(img, highbounds, lowbounds)
+  
+  if area == -2:
+    return -2
 
   return area >= count_threshold
 
